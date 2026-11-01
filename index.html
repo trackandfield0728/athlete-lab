@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#080d18">
+<title>ATHLETE LAB. | Performance System</title>
+<style>
+:root {
+  --bg:#080d18;
+  --panel:#101a2a;
+  --panel2:#152237;
+  --gold:#c8a96e;
+  --white:#f3f4f6;
+  --muted:#8995a8;
+  --line:#263449;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--white);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+}
+header{
+  padding:23px 6%;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+.logo{font-size:20px;font-weight:800;letter-spacing:3px}
+.logo span{color:var(--gold)}
+header small{color:var(--muted);letter-spacing:2px}
+.hero{padding:65px 7% 45px;max-width:1000px;margin:auto}
+.eyebrow{color:var(--gold);letter-spacing:4px;font-size:11px}
+h1{font-size:clamp(34px,7vw,62px);line-height:1.1;margin:20px 0}
+h1 span{color:var(--gold)}
+.hero p{color:var(--muted);line-height:1.9}
+.container{max-width:850px;margin:auto;padding:0 6% 70px}
+.section{
+  background:var(--panel);
+  border:1px solid var(--line);
+  padding:25px;
+  border-radius:12px;
+  margin-bottom:20px;
+}
+.section-title{
+  color:var(--gold);
+  font-size:12px;
+  letter-spacing:3px;
+  margin-bottom:22px;
+}
+.field{margin-bottom:22px}
+label{display:block;font-size:13px;margin-bottom:10px;color:#d9dfeb}
+input,select,textarea{
+  width:100%;
+  background:#0a1220;
+  color:white;
+  border:1px solid var(--line);
+  padding:14px;
+  border-radius:7px;
+  font-size:15px;
+  outline:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--gold)}
+textarea{min-height:95px;resize:vertical}
+.options{display:flex;flex-wrap:wrap;gap:9px}
+.option input{display:none}
+.option span{
+  display:block;
+  border:1px solid var(--line);
+  padding:10px 14px;
+  border-radius:6px;
+  font-size:12px;
+  cursor:pointer;
+}
+.option input:checked+span{
+  background:#c8a96e20;
+  border-color:var(--gold);
+  color:var(--gold);
+}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:15px}
+button{
+  width:100%;
+  background:var(--gold);
+  color:#101522;
+  border:0;
+  padding:17px;
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:2px;
+  border-radius:7px;
+  cursor:pointer;
+}
+button:hover{opacity:.88}
+.note{font-size:11px;color:var(--muted);line-height:1.8;margin-top:18px}
+#result{display:none;margin-top:25px}
+.result-card{
+  background:var(--panel2);
+  padding:20px;
+  border-radius:9px;
+  margin:13px 0;
+  border:1px solid var(--line);
+}
+.result-card h3{color:var(--gold);font-size:14px}
+.result-card p{font-size:13px;line-height:1.9;color:#c5cedb}
+.warning{border-color:#b87845}
+footer{
+  text-align:center;
+  padding:30px;
+  border-top:1px solid var(--line);
+  color:var(--muted);
+  font-size:10px;
+  letter-spacing:2px;
+}
+@media(max-width:550px){
+ .grid{grid-template-columns:1fr}
+ .section{padding:19px}
+ .hero{padding-top:45px}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">ATHLETE <span>LAB.</span></div>
+  <small>PERFORMANCE SYSTEM</small>
+</header>
+
+<div class="hero">
+  <div class="eyebrow">ATHLETIC PERFORMANCE SYSTEM</div>
+  <h1>競技力を<br><span>最大化する。</span></h1>
+  <p>選手の能力・課題・コンディションを分析し、競技特性に合わせた調整プランニングをサポートする。</p>
+</div>
+
+<main class="container">
+<form id="athleteForm">
+
+<div class="section">
+<div class="section-title">01 / BASIC INFORMATION</div>
+
+<div class="field">
+<label>年齢</label>
+<input type="number" id="age" min="10" max="100" placeholder="例：17" required>
+</div>
+
+<div class="field">
+<label>性別</label>
+<div class="options">
+<label class="option"><input type="radio" name="gender" value="男性" required><span>男性</span></label>
+<label class="option"><input type="radio" name="gender" value="女性"><span>女性</span></label>
+<label class="option"><input type="radio" name="gender" value="回答しない"><span>回答しない</span></label>
+</div>
+</div>
+
+<div class="field">
+<label>競技種目</label>
+<div class="options">
+</div>
+<select id="event" required>
+<optgroup label="短距離">
+<option>100m</option><option>200m</option><option>400m</option>
+<option>4×100mR</option><option>4×400mR</option>
+</optgroup>
+<optgroup label="ハードル">
+<option>110mH</option><option>100mH</option><option>400mH</option>
+</optgroup>
+<optgroup label="中長距離">
+<option>800m</option><option>1500m</option><option>3000m</option>
+<option>5000m</option><option>10000m</option><option>3000mSC</option>
+</optgroup>
+<optgroup label="跳躍">
+<option>走幅跳</option><option>三段跳</option><option>走高跳</option><option>棒高跳</option>
+</optgroup>
+<optgroup label="投てき">
+<option>砲丸投</option><option>円盤投</option><option>ハンマー投</option><option>やり投</option>
+</optgroup>
+<optgroup label="混成">
+<option>十種競技</option><option>七種競技</option>
+</optgroup>
+</select>
+</div>
+
+<div class="field">
+<label>競技レベル</label>
+<select id="level">
+<option>初心者</option><option>県大会レベル</option>
+<option>地区大会上位</option><option>全国大会レベル</option>
+</select>
+</div>
+
+<div class="field">
+<label>競技歴</label>
+<select id="career">
+<option>1年未満</option><option>1〜2年</option>
+<option>3〜4年</option><option>5年以上</option>
+</select>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">02 / PERFORMANCE DATA</div>
+<div class="grid">
+<div class="field">
+<label>自己ベスト</label>
+<input id="pb" placeholder="例：10.85秒">
+</div>
+<div class="field">
+<label>目標記録</label>
+<input id="goal" placeholder="例：10.50秒">
+</div>
+</div>
+<div class="field">
+<label>現在の課題・改善したい点</label>
+<textarea id="issues" placeholder="例：スタートの反応、加速局面、後半の減速など"></textarea>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">03 / COMPETITION SCHEDULE</div>
+<div class="field">
+<label>大会日</label>
+<input type="date" id="date">
+</div>
+<div class="field">
+<label>調整期間</label>
+<div class="options">
+<label class="option"><input type="radio" name="period" value="3日間"><span>3日間</span></label>
+<label class="option"><input type="radio" name="period" value="5日間"><span>5日間</span></label>
+<label class="option"><input type="radio" name="period" value="7日間" checked><span>7日間</span></label>
+<label class="option"><input type="radio" name="period" value="10日間"><span>10日間</span></label>
+<label class="option"><input type="radio" name="period" value="14日間"><span>14日間</span></label>
+</div>
+</div>
+<div class="field">
+<label>練習頻度</label>
+<select id="frequency">
+<option>週2〜3日</option><option>週4〜5日</option><option>週6日以上</option>
+</select>
+</div>
+<div class="field">
+<label>直近の練習内容</label>
+<textarea id="training" placeholder="例：30mダッシュ×4、流し×3、補強運動"></textarea>
+</div>
+</div>
+
+<div class="section">
+<div class="section-title">04 / CONDITION CHECK</div>
+<div class="field">
+<label>疲労度：<span id="fatigueValue">5</span> / 10</label>
+<input type="range" id="fatigue" min="1" max="10" value="5">
+</div>
+<div class="field">
+<label>最近の睡眠状態</label>
+<select id="sleep">
+<option>良好</option><option>普通</option><option>あまり良くない</option>
+</select>
+</div>
+<div class="field">
+<label>怪我・痛みの状態</label>
+<select id="injury">
+<option value="none">怪我・痛みなし</option>
+<option value="past">過去に怪我があり、現在は症状なし</option>
+<option value="current">現在も痛み・違和感がある</option>
+<option value="restricted">医師から運動制限を受けている</option>
+</select>
+</div>
+<p class="note">痛みや運動制限がある場合は通常メニューを生成せず、安全確認を優先します。</p>
+</div>
+
+<button type="submit">分析して調整プランを作成 →</button>
+</form>
+
+<div id="result">
+<div class="section">
+<div class="section-title">05 / PERFORMANCE ANALYSIS</div>
+<h2>ANALYSIS REPORT</h2>
+<div id="report"></div>
+</div>
+</div>
+
+</main>
+
+<footer>
+ATHLETE LAB © 2026 · TRAIN SMARTER.
+</footer>
+
+<script>
+const fatigue=document.getElementById("fatigue");
+fatigue.addEventListener("input",()=>{
+document.getElementById("fatigueValue").textContent=fatigue.value;
+});
+
+document.getElementById("athleteForm").addEventListener("submit",function(e){
+e.preventDefault();
+
+const injury=document.getElementById("injury").value;
+const event=document.getElementById("event").value;
+const fatigueValue=Number(fatigue.value);
+const sleep=document.getElementById("sleep").value;
+const period=document.querySelector('input[name="period"]:checked').value;
+
+let html="";
+
+html+=`<div class="result-card"><h3>ATHLETE PROFILE</h3>
+<p>種目：${event}<br>
+競技レベル：${document.getElementById("level").value}<br>
+競技歴：${document.getElementById("career").value}<br>
+自己ベスト：${document.getElementById("pb").value||"未入力"}<br>
+目標記録：${document.getElementById("goal").value||"未入力"}</p></div>`;
+
+if(injury==="current"||injury==="restricted"){
+html+=`<div class="result-card warning">
+<h3>SAFETY PRIORITY / 安全確認</h3>
+<p>現在、痛み・違和感または医師による運動制限があるため、通常のトレーニングメニューは作成しません。</p>
+<p>痛みがある場合は運動を中止し、保護者・指導者に伝えて医療専門家に相談してください。医師から制限を受けている場合は、その指示を優先してください。</p>
+</div>`;
+}else{
+html+=`<div class="result-card">
+<h3>CONDITION ANALYSIS</h3>
+<p>疲労度：${fatigueValue}/10<br>
+睡眠状態：${sleep}<br>
+${fatigueValue>=7?"疲労が高い状態です。負荷を増やさず、休養を優先して指導者と調整してください。":fatigueValue>=5?"疲労状態を確認しながら練習負荷を調整しましょう。":"疲労度は比較的低めですが、体調や動きの変化を確認しましょう。"}</p>
+</div>
+<div class="result-card">
+<h3>TRAINING ADJUSTMENT</h3>
+<p>大会までの調整期間：${period}<br>
+練習頻度：${document.getElementById("frequency").value}</p>
+<p>大会前は新しい高負荷メニューを追加せず、普段の練習で確立した動きの確認と回復を重視しましょう。具体的な負荷は指導者と相談して決めてください。</p>
+</div>
+<div class="result-card">
+<h3>PERFORMANCE FOCUS</h3>
+<p>現在の課題：${document.getElementById("issues").value||"課題未入力"}<br>
+直近の練習：${document.getElementById("training").value||"未入力"}</p>
+<p>課題を整理し、次の練習で確認するポイントを1〜2個に絞りましょう。</p>
+</div>`;
+}
+
+document.getElementById("report").innerHTML=html;
+document.getElementById("result").style.display="block";
+document.getElementById("result").scrollIntoView({behavior:"smooth"});
+});
+</script>
+</body>
+</html>
